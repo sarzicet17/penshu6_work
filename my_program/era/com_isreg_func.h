@@ -16,7 +16,7 @@ typedef struct _ComISRegHandleData{
     GtkButton *isRegistButton;
     GtkButton *isRegCancelButton;
     //自社インターン情報取得画面
-    GtkTreeView IsfindList;
+    GtkTreeView *IsfindList;
 
 }ComISRegHandleData;
 
