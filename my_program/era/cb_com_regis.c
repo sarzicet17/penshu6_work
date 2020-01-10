@@ -2,7 +2,7 @@
 #include "com_isreg_func.h"
 
 
-int isRegWindowShowFlag = 0; //インターン登録画面表示フラグ
+extern int isRegWindowShowFlag = 0; //インターン登録画面表示フラグ
 
 G_MODULE_EXPORT void cb_show_com_isreg(GtkMenuItem *menuItem,gpointer data){
     GtkBuilder *builder;
@@ -19,17 +19,25 @@ G_MODULE_EXPORT void cb_show_com_isreg(GtkMenuItem *menuItem,gpointer data){
 
     char buffer[BUFSIZE];
 
-    hData = (MainHandleData *)data;
-    isreghData = (ComISRegHandleData *)malloc(sizeof(ComISRegHandleData));
+    //送信コマンド格納バッファ
 
-    //gladeファイルの読み込み
-    builder = gtk_builder_new();
-    gtk_builder_add_from_file(builder,"com_isreg.glade",NULL);
+    char send_command[BUFSIZE];
+    char send_param1[BUFSIZE];
+    char send_param2[BUFSIZE];
+    char send_param3[BUFSIZE];
+    
+
+    // hData = (MainHandleData *)data;
+    // isreghData = (ComISRegHandleData *)malloc(sizeof(ComISRegHandleData));
+
+    // //gladeファイルの読み込み
+    // builder = gtk_builder_new();
+    // gtk_builder_add_from_file(builder,"com_isreg.glade",NULL);
 
     
-    isreghData->comRegWindow = GTK_WIDGET(gtk_builder_get_object(builder,"com_regis_window"));
-    isreghData->IsfindList = GTK_TREE_VIEW(gtk_builder_get_object(builder,"isinfo_res_list"));
-    hData->isreghData = isreghData;
+    // isreghData->comRegWindow = GTK_WIDGET(gtk_builder_get_object(builder,"com_regis_window"));
+    // isreghData->IsfindList = GTK_TREE_VIEW(gtk_builder_get_object(builder,"isinfo_res_list"));
+    // hData->isreghData = isreghData;
 
 
     //インターンシップ情報登録画面の機能

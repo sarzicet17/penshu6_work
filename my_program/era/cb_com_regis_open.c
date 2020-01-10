@@ -27,9 +27,9 @@ G_MODULE_EXPORT void cb_com_isreg_winopen(GtkMenuItem *menuItem,gpointer data){
 
     //インターンシップ情報登録画面へ飛ぶ
     gtk_builder_connect_signals(builder,hData);
-    gtk_widget_show_all(isreghData->)
+    gtk_widget_show_all(isreghData->comRegWindow);
 
+    isRegWindowShowFlag = 1;
 
     }
-
 }
