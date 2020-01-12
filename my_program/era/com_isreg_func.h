@@ -20,7 +20,7 @@ typedef struct _ComISRegHandleData{
     GtkTreeSelection *selection;
     //自社インターン情報取得画面
     GtkButton *isListSearchButton;
-    GtkTreeView *isInfoResList;
+    GtkTreeView *isResList;
 
 }ComISRegHandleData;
 

@@ -91,15 +91,12 @@ G_MODULE_EXPORT void cb_show_com_isreg(GtkMenuItem *menuItem,gpointer data){
 
         //エラーチェック
         if(strcmp(responce,OK_STAT) != 0){
-            ComRegIsErrorMessageShow;
+            //ComRegIsErrorMessageShow;
+            return;
         }
 
     }
 
     //自社インターンシップ情報取得画面の機能(ここまで)
 
-
-    gtk_builder_connect_signals(builder,hData);
-
-    gtk_widget_show_all(isreghData->comRegWindow);
 }
