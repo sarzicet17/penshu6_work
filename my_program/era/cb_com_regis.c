@@ -19,6 +19,15 @@ G_MODULE_EXPORT void cb_show_com_isreg(GtkMenuItem *menuItem,gpointer data){
 
     char buffer[BUFSIZE];
 
+
+    //送受信バッファ
+    char sendBuf[BUFSIZE];
+    char recvBuf[BUFSIZE_MAX];
+    char *records[RECORD_MAX];
+    char response[BUFSIZE];
+    int recordCount;
+    int sendLen,recvLen;
+
     //送信コマンド格納バッファ
 
     char send_command[BUFSIZE];
@@ -26,6 +35,20 @@ G_MODULE_EXPORT void cb_show_com_isreg(GtkMenuItem *menuItem,gpointer data){
     char send_param2[BUFSIZE];
     char send_param3[BUFSIZE];
     
+
+    //受信データ格納バッファ
+    char recv_param1[BUFSIZE];
+    char recv_param2[BUFSIZE];
+    char recv_param3[BUFSIZE];
+    char recv_param4[BUFSIZE];
+    char recv_param5[BUFSIZE];
+    char recv_param6[BUFSIZE];
+    char recv_param7[BUFSIZE];
+    //引数をメイン画面主要widget構造体型にキャスト
+    hData = (MainHandleData *)data;
+    ComISRegHandleData = hData->ComISRegHandleData;
+
+    //model = GTK_LIST_STORE(gtk_tree_view_get_model(isreghData->isInfoResList));
 
     // hData = (MainHandleData *)data;
     // isreghData = (ComISRegHandleData *)malloc(sizeof(ComISRegHandleData));
@@ -42,21 +65,35 @@ G_MODULE_EXPORT void cb_show_com_isreg(GtkMenuItem *menuItem,gpointer data){
 
     //インターンシップ情報登録画面の機能
 
-    
-
-
     //インターンシップ情報登録画面機能（ここまで）
 
 
     //自社インターンシップ情報取得画面の機能
-    isreg_selection = gtk_tree_view_get_selection(hData->treeView);
-    if(!selection) return;
-    
-    model = GTK_TREE_MODEL(gtk_tree_view_get_model(hData->treeView));
-    isfind_success = gtk_tree_selection_get_selected(selection,NULL,isreg_iter);
+    model = GTK_LIST_STORE(gtk_tree_view_get_model(isreghData->isInfoResList));
 
-    if(isfind_succcess){
-        gtk_tree_model_get()
+    if(g_soc > 0){
+        sendLen = sprintf(sendBuf,"%s %s",ISLIST_C,ENTER);
+        send(g_soc,sendbuf,sendLen,0);
+        recvLen = recv_data(g_soc,recvBuf,BUFSIZE_MAX);
+        //レコードに分割
+        recordCount = record_division(recvBuf,records);
+
+        memset(response,0,BUFSIZE);
+        memset(recv_param1,0,BUFSIZE);
+        memset(recv_param2,0,BUFSIZE);
+        memset(recv_param3,0,BUFSIZE);
+        memset(recv_param4,0,BUFSIZE);
+        memset(recv_param5,0,BUFSIZE);
+        memset(recv_param6,0,BUFSIZE);
+        memset(recv_param7,0,BUFSIZE);
+
+        n = sscanf(records[0],"%s %s",response,param1);
+
+        //エラーチェック
+        if(strcmp(responce,OK_STAT) != 0){
+            ComRegIsErrorMessageShow;
+        }
+
     }
 
     //自社インターンシップ情報取得画面の機能(ここまで)

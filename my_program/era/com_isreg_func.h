@@ -34,4 +34,8 @@ typedef struct _ComISRegInfo{
     gchararray isDate;
 }ComISRegInfo;
 
+//プロトコルコマンド
+
+#define ISLIST_C "ISLIST_C"
+
 #endif
