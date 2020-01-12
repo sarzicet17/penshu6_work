@@ -1,8 +1,6 @@
 #ifndef _COM_ISREG_HDR_
 #define _COM_ISREG_HDR_
 
-#include <gtk/gtk.h>
-
 typedef struct _ComISRegHandleData{
     GtkWidget *comRegWindow;
 

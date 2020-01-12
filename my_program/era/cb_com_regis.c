@@ -1,8 +1,7 @@
 #include "intern_client.h"
 #include "com_isreg_func.h"
 
-
-extern int isRegWindowShowFlag = 0; //インターン登録画面表示フラグ
+extern int isRegWindowShowFlag; //インターン登録画面表示フラグ
 
 G_MODULE_EXPORT void cb_show_com_isreg(GtkMenuItem *menuItem,gpointer data){
     GtkBuilder *builder;
@@ -19,6 +18,7 @@ G_MODULE_EXPORT void cb_show_com_isreg(GtkMenuItem *menuItem,gpointer data){
 
     char buffer[BUFSIZE];
 
+    int n;
 
     //送受信バッファ
     char sendBuf[BUFSIZE];
@@ -30,23 +30,17 @@ G_MODULE_EXPORT void cb_show_com_isreg(GtkMenuItem *menuItem,gpointer data){
 
     //送信コマンド格納バッファ
 
-    char send_command[BUFSIZE];
-    char send_param1[BUFSIZE];
-    char send_param2[BUFSIZE];
-    char send_param3[BUFSIZE];
-    
-
     //受信データ格納バッファ
-    char recv_param1[BUFSIZE];
-    char recv_param2[BUFSIZE];
-    char recv_param3[BUFSIZE];
-    char recv_param4[BUFSIZE];
-    char recv_param5[BUFSIZE];
-    char recv_param6[BUFSIZE];
-    char recv_param7[BUFSIZE];
+    char param1[BUFSIZE];
+    char param2[BUFSIZE];
+    char param3[BUFSIZE];
+    char param4[BUFSIZE];
+    char param5[BUFSIZE];
+    char param6[BUFSIZE];
+    char param7[BUFSIZE];
     //引数をメイン画面主要widget構造体型にキャスト
     hData = (MainHandleData *)data;
-    ComISRegHandleData = hData->ComISRegHandleData;
+    isreghData = hData->isreghData;
 
     //model = GTK_LIST_STORE(gtk_tree_view_get_model(isreghData->isInfoResList));
 
@@ -69,30 +63,38 @@ G_MODULE_EXPORT void cb_show_com_isreg(GtkMenuItem *menuItem,gpointer data){
 
 
     //自社インターンシップ情報取得画面の機能
-    model = GTK_LIST_STORE(gtk_tree_view_get_model(isreghData->isInfoResList));
+    isreg_model = GTK_LIST_STORE(gtk_tree_view_get_model(isreghData->isResList));
 
     if(g_soc > 0){
         sendLen = sprintf(sendBuf,"%s %s",ISLIST_C,ENTER);
-        send(g_soc,sendbuf,sendLen,0);
+        send(g_soc,sendBuf,sendLen,0);
         recvLen = recv_data(g_soc,recvBuf,BUFSIZE_MAX);
         //レコードに分割
         recordCount = record_division(recvBuf,records);
 
         memset(response,0,BUFSIZE);
-        memset(recv_param1,0,BUFSIZE);
-        memset(recv_param2,0,BUFSIZE);
-        memset(recv_param3,0,BUFSIZE);
-        memset(recv_param4,0,BUFSIZE);
-        memset(recv_param5,0,BUFSIZE);
-        memset(recv_param6,0,BUFSIZE);
-        memset(recv_param7,0,BUFSIZE);
+        memset(param1,0,BUFSIZE);
+        memset(param2,0,BUFSIZE);
+        memset(param3,0,BUFSIZE);
+        memset(param4,0,BUFSIZE);
+        memset(param5,0,BUFSIZE);
+        memset(param6,0,BUFSIZE);
+        memset(param7,0,BUFSIZE);
 
         n = sscanf(records[0],"%s %s",response,param1);
 
         //エラーチェック
-        if(strcmp(responce,OK_STAT) != 0){
+        if(strcmp(response,OK_STAT) != 0){
             //ComRegIsErrorMessageShow;
             return;
+        }
+        
+        //受信した学生リストをツリービューに表示する
+        gtk_list_store_clear(isreg_model);
+        for(int i=1;i<atoi(param1)+1;i++){
+            n = sscanf(records[i],"%s %s %s %s %s %s ",param2,param3,param4,param5,param6,param7);
+            gtk_list_store_append(isreg_model,&isreg_iter);
+            gtk_list_store_set(isreg_model,&isreg_iter,0,param2,1,param3,2,param4,3,param5,4,param6,5,param7,-1);
         }
 
     }
