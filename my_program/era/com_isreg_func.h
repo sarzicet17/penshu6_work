@@ -10,11 +10,12 @@ typedef struct _ComISRegHandleData{
     GtkComboBox *yearCombo;
     GtkComboBox *monthCombo;
     GtkComboBox *dayCombo;
-    GtkComboBox *daycountCombo;
+    // GtkComboBox *daycountCombo;
     GtkLabel *yearLabel;
     GtkLabel *monthLabel;
     GtkLabel *dayLabel;
-    GtkLabel *daycountLabel;
+    // GtkEntry *IsThemeEntry;
+    // GtkLabel *daycountLabel;
     GtkButton *isRegistButton;
     GtkButton *isRegCancelButton;
     GtkTreeSelection *selection;
