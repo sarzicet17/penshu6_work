@@ -59,6 +59,8 @@ G_MODULE_EXPORT void cb_show_com_isreg(GtkMenuItem *menuItem,gpointer data){
 
     //インターンシップ情報登録画面の機能
 
+
+
     //インターンシップ情報登録画面機能（ここまで）
 
 

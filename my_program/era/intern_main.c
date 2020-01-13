@@ -25,17 +25,17 @@ int main(int argc, char *argv[]){
   char       labelBuf[BUFSIZE];
   int        port;
   
-  //  if(argc != 3){
-  //  printf("Usage: %s server-ipaddr port\n", argv[0]);
-  //  exit(1);
-  //}
+  if(argc != 3){
+    printf("Usage: %s server-ipaddr port\n", argv[0]);
+    exit(1);
+  }
  
-  //port = atoi(argv[2]);
+  port = atoi(argv[2]);
 
   /* サーバに接続要求 */
-  //if((g_soc = setup_connect(argv[1], port)) < 0){
-  //  exit(1);
-  //}
+  if((g_soc = setup_connect(argv[1], port)) < 0){
+    exit(1);
+  }
 
   /* GTK+の初期化  */
   gtk_init(&argc, &argv);
@@ -69,8 +69,8 @@ int main(int argc, char *argv[]){
   hData->stuPasswordChangeButton= GTK_BUTTON( gtk_builder_get_object(builder, "stuPasswordChangeButton") );
 
   /* コネクション先のサーバ情報を表示 */
-  // sprintf(labelBuf, "Server: %s Port: %d", argv[1], port);
-  // gtk_label_set_text(hData->connectLabel, labelBuf);
+  sprintf(labelBuf, "Server: %s Port: %d", argv[1], port);
+  gtk_label_set_text(hData->connectLabel, labelBuf);
 
   /* ログインなしを表示（UserID UserName) */
 

@@ -85,7 +85,9 @@ typedef struct _mainHandleData{
   GtkWidget  *mainWindow;             //メインウィンドウ
   GtkLabel   *userIdLabel;            //UserIdラベル
   GtkLabel   *userNameLabel;          //UserNameラベル
-  GtkLabel   *serverInfoLabel;        //サーバ接続表示ラベル
+  GtkLabel   *serverInfoLabel; 
+  GtkLabel   *connectLabel;
+ //サーバ接続表示ラベル
   /*** 教員 ***/
   GtkButton  *studentRegisterButton;  //学生登録ボタン
   GtkButton  *companyRegisterButton;  //企業・企業担当者登録ボタン
