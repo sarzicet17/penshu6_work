@@ -15,7 +15,8 @@ G_MODULE_EXPORT void cb_login_win_open(GtkMenuItem *menuItem, gpointer data){
   LoginHandleData *loginHData; //ログイン画面の主要Widget保持用
   const gchar *loginStr;
 
-  
+  printf("call: cb_login_win_open\n");
+
   /* 引数(data)をメイン画面主要Widget保持用構造体型にキャスト */
   hData = (MainHandleData *)data;
 

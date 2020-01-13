@@ -70,7 +70,7 @@ int main(int argc, char *argv[]){
 
   /* コネクション先のサーバ情報を表示 */
   sprintf(labelBuf, "Server: %s Port: %d", argv[1], port);
-  gtk_label_set_text(hData->connectLabel, labelBuf);
+  gtk_label_set_text(hData->serverInfoLabel, labelBuf);
 
   /* ログインなしを表示（UserID UserName) */
 
@@ -78,22 +78,22 @@ int main(int argc, char *argv[]){
 
   /* 各機能ボタンを無効化 */
 
-  //gtk_widget_set_sensitive( GTK_WIDGET(hData->studentRegisterButton), FALSE );  
-  //gtk_widget_set_sensitive( GTK_WIDGET(hData->companyRegisterButton), FALSE );  
-  //gtk_widget_set_sensitive( GTK_WIDGET(hData->internEntryButton), FALSE );  
-  //gtk_widget_set_sensitive( GTK_WIDGET(hData->internStudentDisplayButton), FALSE );
-  //gtk_widget_set_sensitive( GTK_WIDGET(hData->gradeDisplayButton ), FALSE );
+  gtk_widget_set_sensitive( GTK_WIDGET(hData->studentRegisterButton), FALSE );  
+  gtk_widget_set_sensitive( GTK_WIDGET(hData->companyRegisterButton), FALSE );  
+  gtk_widget_set_sensitive( GTK_WIDGET(hData->internEntryButton), FALSE );  
+  gtk_widget_set_sensitive( GTK_WIDGET(hData->internStudentDisplayButton), FALSE );
+  gtk_widget_set_sensitive( GTK_WIDGET(hData->gradeDisplayButton ), FALSE );
     
-  //gtk_widget_set_sensitive( GTK_WIDGET(hData->internRegisterButton), FALSE );  
-  //gtk_widget_set_sensitive( GTK_WIDGET(hData->entryStudentDisplayButton), FALSE );  
-  //gtk_widget_set_sensitive( GTK_WIDGET(hData->particicationDecideButton), FALSE );  
-  //gtk_widget_set_sensitive( GTK_WIDGET(hData->gradeInputButton), FALSE );  
-  //gtk_widget_set_sensitive( GTK_WIDGET(hData->passwordChangeButton), FALSE );
+  gtk_widget_set_sensitive( GTK_WIDGET(hData->internRegisterButton), FALSE );  
+  gtk_widget_set_sensitive( GTK_WIDGET(hData->entryStudentDisplayButton), FALSE );  
+  gtk_widget_set_sensitive( GTK_WIDGET(hData->particicationDecideButton), FALSE );  
+  gtk_widget_set_sensitive( GTK_WIDGET(hData->gradeInputButton), FALSE );  
+  gtk_widget_set_sensitive( GTK_WIDGET(hData->passwordChangeButton), FALSE );
 
-  //gtk_widget_set_sensitive( GTK_WIDGET(hData->internDisplayButton), FALSE );  
-  //gtk_widget_set_sensitive( GTK_WIDGET(hData->selfEvaluationButton), FALSE );  
-  //gtk_widget_set_sensitive( GTK_WIDGET(hData->adviceDisplayButton), FALSE );  
-  //gtk_widget_set_sensitive( GTK_WIDGET(hData->stuPasswordChangeButton), FALSE );  
+  gtk_widget_set_sensitive( GTK_WIDGET(hData->internDisplayButton), FALSE );  
+  gtk_widget_set_sensitive( GTK_WIDGET(hData->selfEvaluationButton), FALSE );  
+  gtk_widget_set_sensitive( GTK_WIDGET(hData->adviceDisplayButton), FALSE );  
+  gtk_widget_set_sensitive( GTK_WIDGET(hData->stuPasswordChangeButton), FALSE );  
 
 
   /* UIで設定されているシグナルに対するコールバック関数を登録 */
