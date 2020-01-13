@@ -40,7 +40,7 @@ G_MODULE_EXPORT void cb_com_isreg_winopen(GtkMenuItem *menuItem,gpointer data){
 
     //おもなウィジェットを保持(自社IS参照画面:ツリービュー)
     isreghData->isResList = GTK_TREE_VIEW(gtk_builder_get_object(builder,"isinfo_res_list"));
-
+    isreghData->isListStatusLabel = GTK_LABEL(gtk_builder_get_object(builder,"islist_status_label"));
     //構造体セット
     hData->isreghData = isreghData;
 
