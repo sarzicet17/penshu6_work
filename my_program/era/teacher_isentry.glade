@@ -17,16 +17,27 @@
       <!-- column-name stu_name -->
       <column type="gchararray"/>
       <!-- column-name is_year -->
-      <column type="gint"/>
+      <column type="gchararray"/>
     </columns>
   </object>
   <object class="GtkListStore" id="stu_entry_res">
     <columns>
       <!-- column-name result_row -->
-      <column type="gint"/>
+      <column type="gchararray"/>
       <!-- column-name stu_id -->
       <column type="gchararray"/>
     </columns>
+  </object>
+  <object class="GtkListStore" id="year_list">
+    <columns>
+      <!-- column-name yearlist -->
+      <column type="gchararray"/>
+    </columns>
+    <data>
+      <row>
+        <col id="0" translatable="yes">2019</col>
+      </row>
+    </data>
   </object>
   <object class="GtkListStore" id="year_search_res">
     <columns>
@@ -41,25 +52,14 @@
       <!-- column-name intern_date -->
       <column type="gchararray"/>
       <!-- column-name intern_term -->
-      <column type="gint"/>
+      <column type="gchararray"/>
     </columns>
-  </object>
-  <object class="GtkListStore" id="yearlis">
-    <columns>
-      <!-- column-name yearlist -->
-      <column type="gint"/>
-    </columns>
-    <data>
-      <row>
-        <col id="0">2019</col>
-      </row>
-    </data>
   </object>
   <object class="GtkWindow" id="teacher_isentry_window">
     <property name="can_focus">False</property>
     <property name="default_width">600</property>
     <property name="default_height">320</property>
-    <signal name="destroy" handler="gtk_main_quit" swapped="no"/>
+    <signal name="destroy" handler="cb_t_isentry_close" swapped="no"/>
     <child>
       <placeholder/>
     </child>
@@ -208,8 +208,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <signal name="clicked" handler="gtk_main_quit" swapped="no"/>
-                        <signal name="destroy" handler="clicked" swapped="no"/>
+                        <signal name="clicked" handler="cb_t_isentry_close" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -258,7 +257,7 @@
                         <property name="can_focus">False</property>
                         <property name="halign">end</property>
                         <property name="valign">center</property>
-                        <property name="model">yearlis</property>
+                        <property name="model">year_list</property>
                         <child>
                           <object class="GtkCellRendererText" id="yearlist"/>
                           <attributes>
@@ -284,6 +283,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
+                            <signal name="clicked" handler="cb_t_isentry_foryearsearch" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -408,7 +408,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
-                        <signal name="clicked" handler="gtk_main_quit" swapped="no"/>
+                        <signal name="clicked" handler="cb_t_isentry_close" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -421,6 +421,18 @@
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="position">3</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="serachby_year_status">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">Status</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">4</property>
                   </packing>
                 </child>
               </object>
@@ -657,7 +669,7 @@
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkLabel" id="found_entry_num">
+                      <object class="GtkLabel" id="found_entry_info">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
                         <property name="label" translatable="yes">0件取得</property>
@@ -680,7 +692,7 @@
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
-                            <signal name="clicked" handler="gtk_main_quit" swapped="no"/>
+                            <signal name="clicked" handler="cb_t_isentry_close" swapped="no"/>
                           </object>
                           <packing>
                             <property name="expand">True</property>

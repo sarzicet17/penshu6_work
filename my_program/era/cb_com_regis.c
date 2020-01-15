@@ -19,6 +19,24 @@ G_MODULE_EXPORT void cb_cancel_com_isreg(GtkButton *button,gpointer data){
     isRegWindowShowFlag = 0;
 }
 
+//コンボボックスへの値のセット
+
+// G_MODULE_EXPORT void cb_com_isreg_set_count_combo(GtkComboBox){
+//     MainHandleData *hData;
+//     ComISRegHandleData isreghData;
+
+//     hData = (ComISRegHandleData *)data;
+
+//     isreghData = hData ->isreghData;
+
+//     GtkTreeModel *yearModel;
+//     GtkTreeModel *monthModel;
+//     GtkTreeModel *dayModel;
+//     GtkTreeModel *daycountModel;
+
+
+
+// }
 
 //自社インターン情報検索機能
 G_MODULE_EXPORT void cb_com_islist_search(GtkButton *button,gpointer data){
@@ -40,22 +58,26 @@ G_MODULE_EXPORT void cb_com_islist_search(GtkButton *button,gpointer data){
     //リストストアセット用バッファ
 
     char param1[BUFSIZE];
-    char param2[BUFSIZE];
-    char param3[BUFSIZE];
-    char param4[BUFSIZE];
-    char param5[BUFSIZE];
-    char param6[BUFSIZE];
-    char param7[BUFSIZE];
+    char param2[BUFSIZE]; //開催年度
+    char param3[BUFSIZE]; //ISID
+    char param4[BUFSIZE]; //担当ID
+    char param5[BUFSIZE]; //インターン名
+    char param6[BUFSIZE]; //予定実施日
+    char param7[BUFSIZE]; //予定実施日数
 
     hData = (MainHandleData *)data;
     isreghData = hData ->isreghData;
 
+    isreg_model = GTK_LIST_STORE(gtk_tree_view_get_model(isreghData->isResList));
+
     if(g_soc > 0){
         sendLen = sprintf(sendBuf,"%s %s",ISLIST_C,ENTER);
         send(g_soc,sendBuf,sendLen,0);
+        printf("C->S: %s\n",sendBuf);
         recvLen = recv_data(g_soc,recvBuf,BUFSIZE_MAX);
         //レコードに分割
         recordCount = record_division(recvBuf,records);
+        printf("S->C: %s\n",recvBuf);
 
         memset(response,0,BUFSIZE);
         memset(param1,0,BUFSIZE);
@@ -71,13 +93,14 @@ G_MODULE_EXPORT void cb_com_islist_search(GtkButton *button,gpointer data){
         //エラーチェック
         if(strcmp(response,OK_STAT) != 0){
             comRegIsErrorMessageShow(isreghData->isListStatusLabel,atoi(param1));
+            gtk_list_store_clear(isreg_model);
             return;
         }
         
         //受信した学生リストをツリービューに表示する
         gtk_list_store_clear(isreg_model);
         for(i=1;i<atoi(param1)+1;i++){
-            n = sscanf(records[i],"%s %s %s %s %s %s ",param2,param3,param4,param5,param6,param7);
+            n = sscanf(records[i],"%s %s %s %s %s %s",param2,param3,param4,param5,param6,param7);
             gtk_list_store_append(isreg_model,&isreg_iter);
             gtk_list_store_set(isreg_model,&isreg_iter,0,param2,1,param3,2,param4,3,param5,4,param6,5,param7,-1);
         }
@@ -85,6 +108,7 @@ G_MODULE_EXPORT void cb_com_islist_search(GtkButton *button,gpointer data){
     }    
 
 }
+
 
 // G_MODULE_EXPORT void cb_show_com_isreg(GtkMenuItem *menuItem,gpointer data){
 //     GtkBuilder *builder;

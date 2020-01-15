@@ -81,7 +81,7 @@ G_MODULE_EXPORT void cb_login_exec(GtkButton *button, gpointer data){
 
   if(g_soc > 0){
     send(g_soc, sendBuf, sendLen, 0);
-    printf("C->S: %s",sendBuf);
+    printf("C->S: %s\n",sendBuf);
     recvLen = recv_data(g_soc, recvBuf,BUFSIZE_MAX);
     recordCount = record_division(recvBuf, records);
     printf("S->C: %s\n",recvBuf);

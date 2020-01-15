@@ -4,8 +4,6 @@
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkListStore" id="liststore_isinfo">
     <columns>
-      <!-- column-name res_row -->
-      <column type="gchararray"/>
       <!-- column-name year -->
       <column type="gchararray"/>
       <!-- column-name isid -->
@@ -386,7 +384,7 @@
                             <child>
                               <object class="GtkCellRendererText" id="is_year"/>
                               <attributes>
-                                <attribute name="text">1</attribute>
+                                <attribute name="text">0</attribute>
                               </attributes>
                             </child>
                           </object>
@@ -397,7 +395,7 @@
                             <child>
                               <object class="GtkCellRendererText" id="intern_id"/>
                               <attributes>
-                                <attribute name="text">2</attribute>
+                                <attribute name="text">1</attribute>
                               </attributes>
                             </child>
                           </object>
@@ -408,7 +406,7 @@
                             <child>
                               <object class="GtkCellRendererText" id="com_id"/>
                               <attributes>
-                                <attribute name="text">3</attribute>
+                                <attribute name="text">2</attribute>
                               </attributes>
                             </child>
                           </object>
@@ -419,7 +417,7 @@
                             <child>
                               <object class="GtkCellRendererText" id="intern_theme"/>
                               <attributes>
-                                <attribute name="text">4</attribute>
+                                <attribute name="text">3</attribute>
                               </attributes>
                             </child>
                           </object>
@@ -430,7 +428,7 @@
                             <child>
                               <object class="GtkCellRendererText" id="intern_date"/>
                               <attributes>
-                                <attribute name="text">5</attribute>
+                                <attribute name="text">4</attribute>
                               </attributes>
                             </child>
                           </object>
@@ -441,7 +439,7 @@
                             <child>
                               <object class="GtkCellRendererText" id="intern_days"/>
                               <attributes>
-                                <attribute name="text">6</attribute>
+                                <attribute name="text">5</attribute>
                               </attributes>
                             </child>
                           </object>
