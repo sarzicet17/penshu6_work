@@ -183,7 +183,7 @@ G_MODULE_EXPORT void cb_t_isentry_foryearsearch(GtkButton *button, gpointer data
             gtk_list_store_clear(model);
             return;
         }else{
-            gtk_label_set_text(isentryhData->searchByYearStatus,"検索完了")
+            gtk_label_set_text(isentryhData->searchByYearStatus,"検索完了");
         }
 
         gtk_label_set_text(isentryhData->searchByYearStatus,param1);
