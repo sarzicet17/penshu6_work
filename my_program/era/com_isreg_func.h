@@ -2,23 +2,25 @@
 #define _COM_ISREG_HDR_
 
 extern void comRegIsErrorMessageShow(GtkLabel *,int);
+extern int dateEntryValidation(const gchar *__year,const gchar *__month,const gchar *__day);
+
 
 typedef struct _ComISRegHandleData{
     GtkWidget *comRegWindow;
 
     //企業インターンシップ登録画面
-    GtkComboBox *yearCombo;
-    GtkComboBox *monthCombo;
-    GtkComboBox *dayCombo;
-    // GtkComboBox *daycountCombo;
-    GtkLabel *yearLabel;
-    GtkLabel *monthLabel;
-    GtkLabel *dayLabel;
-    // GtkEntry *IsThemeEntry;
+    GtkEntry *yearEntry;
+    GtkEntry *monthEntry;
+    GtkEntry *dayEntry;
+    GtkEntry *daycountEntry;
+    // GtkLabel *yearLabel;
+    // GtkLabel *monthLabel;
+    // GtkLabel *dayLabel;
     // GtkLabel *daycountLabel;
+    GtkEntry *IsThemeEntry;
     GtkButton *isRegistButton;
     GtkButton *isRegCancelButton;
-    GtkTreeSelection *selection;
+    GtkLabel *comisRegStatLabel;
     //自社インターン情報取得画面
     GtkButton *isListSearchButton;
     GtkTreeView *isResList;
@@ -42,5 +44,6 @@ typedef struct _ComISRegHandleData{
 //プロトコルコマンド
 
 #define ISLIST_C "ISLIST_C"
+#define REGIS "REGIS"
 
 #endif

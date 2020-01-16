@@ -38,6 +38,7 @@ G_MODULE_EXPORT void cb_cancel_com_isreg(GtkButton *button,gpointer data){
 
 // }
 
+
 //自社インターン情報検索機能
 G_MODULE_EXPORT void cb_com_islist_search(GtkButton *button,gpointer data){
     MainHandleData *hData;
@@ -109,7 +110,98 @@ G_MODULE_EXPORT void cb_com_islist_search(GtkButton *button,gpointer data){
 
 }
 
+G_MODULE_EXPORT void cb_isreg_exec(GtkButton *button,gpointer data){
+    MainHandleData *hData;
+    ComISRegHandleData *isreghData;
 
+    //入力文字列バッファ
+    const gchar *internThemeStr;
+    const gchar *yearStr,*monthStr,*dayStr,*daycountStr;
+
+    char sendBuf[BUFSIZE_MAX];
+    char recvBuf[BUFSIZE_MAX];
+    char *records[RECORD_MAX];
+
+    char response[BUFSIZE];
+    char param1[BUFSIZE]; //インターンシップID
+
+
+    int recordCount,n,dateValidatedFlag;
+    int sendLen,recvLen;
+    extern int g_soc;
+
+    printf("call:cb_isreg_exec\n");
+
+    hData = (ComISRegHandleData *)data;
+    isreghData = hData ->isreghData;
+
+    internThemeStr = gtk_entry_get_text(isreghData->IsThemeEntry);
+    yearStr = gtk_entry_get_text(isreghData->yearEntry);
+    monthStr = gtk_entry_get_text(isreghData->monthEntry);
+    dayStr = gtk_entry_get_text(isreghData->dayEntry);
+    daycountStr = gtk_entry_get_text(isreghData->daycountEntry);
+
+    if( strlen(internThemeStr) < 1){
+        gtk_label_set_text(isreghData->comisRegStatLabel,"ERROR:インターン名がありません");
+        return;
+    }
+
+    dateValidatedFlag = dateEntryValidation(yearStr,monthStr,dayStr);
+
+    if(dateValidatedFlag < 0){
+        gtk_label_set_text(isreghData->comisRegStatLabel,"ERROR:有効な日付ではありません。");
+        return;
+    }
+
+    sendLen = sprintf(sendBuf,"%s %s %s-%s-%s %s %s",REGIS,internThemeStr,yearStr,monthStr,dayStr,daycountStr,ENTER);
+
+    if(g_soc > 0){
+        send(g_soc,sendBuf,sendLen,0);
+        printf("C->S: %s",sendBuf);
+        recvLen = recv_data(g_soc,recvBuf,BUFSIZE_MAX);
+        recordCount = record_division(recvBuf,records);
+        printf("S->C: %s\n",recvBuf);
+
+        memset(response,0,BUFSIZE);
+        memset(param1,0,BUFSIZE);
+
+        n = sscanf(records[0],"%s %s",response,param1);
+
+        if(strcmp(response,OK_STAT) != 0){
+            comRegIsErrorMessageShow(isreghData->comisRegStatLabel,atoi(param1));
+            return;
+        }else{
+            gtk_label_set_text(isreghData->comisRegStatLabel,"登録完了");
+        }
+    }
+}
+
+int dateEntryValidation(const gchar * __year,const gchar * __month, const gchar * __day){
+    int year,month,day,last_day;
+    year = atoi(__year);
+    month = atoi(__month);
+    day = atoi(__day);
+
+    int fin_days[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+    // 月の範囲
+    if( month < 1 || month > 12 ){
+        printf("WrongMonthLength:%s\n",month);
+        return -1;
+    }
+    // 日の範囲
+    last_day = fin_days[ month -1 ];
+    if( month == 2 ) {
+        if( year % 4 == 0 && year % 100 != 0 || year % 400 == 0 )
+            last_day = 29;  // うるう年なら末日は29
+    }
+    if( day < 1 || day > last_day ){
+        printf("WrongDayLength:day = %s,last_day = %s\n",day,last_day);
+        return -1;
+    }
+
+    return 0;
+}
 // G_MODULE_EXPORT void cb_show_com_isreg(GtkMenuItem *menuItem,gpointer data){
 //     GtkBuilder *builder;
 //     MainHandleData *hData;
@@ -233,6 +325,4 @@ void comRegIsErrorMessageShow(GtkLabel *statLabel,int statusCode){
         case 2000:
             gtk_label_set_text(statLabel,"ERROR:IS提供企業がありません");                
     }
-
-
 }

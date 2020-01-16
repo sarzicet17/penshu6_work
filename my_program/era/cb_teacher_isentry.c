@@ -20,6 +20,8 @@ G_MODULE_EXPORT void cb_t_isentry_close(GtkButton *button,gpointer data){
 }
 
 
+//ラジオボタン
+
 //年度別検索を行う際、コンボボックスに年度をセットする
 
 // G_MODULE_EXPORT void cb_set_year_combo(GtkComboBox *combobox, gpointer data){
@@ -65,7 +67,7 @@ G_MODULE_EXPORT void cb_submit_entry(GtkButton *button, gpointer data){
     char *records[RECORD_MAX];
     
     //レスポンス格納バッファ
-    char responce[BUFSIZE];
+    char response[BUFSIZE];
     char param1[BUFSIZE],param2[BUFSIZE];
 
     int recordCount,n;
@@ -94,16 +96,16 @@ G_MODULE_EXPORT void cb_submit_entry(GtkButton *button, gpointer data){
         recordCount = record_division(recvBuf,records);
         printf("S->C: %s\n",recvBuf);
 
-        memset(responce,0,BUFSIZE);
+        memset(response,0,BUFSIZE);
         memset(param1,0,BUFSIZE);
         memset(param2,0,BUFSIZE);
 
-    n = sscanf(records[0],"%s %s %s",responce,param1,param2);
+        n = sscanf(records[0],"%s %s %s",response,param1,param2);
 
-    if(strcmp(responce,OK_STAT) != 0){
-    }
-        gtk_label_set_text(isentryhData->regStatLabel,"ERROR");
-        return;
+        if(strcmp(response,OK_STAT) != 0){
+            TeacherIsEntryErrorMessage(isentryhData->regStatLabel,atoi(param1));
+            return;
+        }
     }
 }
 
@@ -118,6 +120,8 @@ G_MODULE_EXPORT void cb_t_isentry_foryearsearch(GtkButton *button, gpointer data
 
     isentryhData = hData ->isentryhData;
 
+    const gchar *yearStr;
+
     //ツリービューモデル
     GtkListStore *model;
     GtkTreeIter iter;
@@ -125,12 +129,9 @@ G_MODULE_EXPORT void cb_t_isentry_foryearsearch(GtkButton *button, gpointer data
     //送受信バッファ
     char sendBuf[BUFSIZE],recvBuf[BUFSIZE_MAX];
     char *records[RECORD_MAX];
-    char responce[BUFSIZE];
+    char response[BUFSIZE];
     int i,n,recordCount;
     int sendLen,recvLen;
-
-    //年度(現段階では2019年に固定,後にコンボボックスと対応付ける)
-    const gchar *YearStr = "2019";
 
     char param1[BUFSIZE];
     char param2[BUFSIZE]; //インターンID
@@ -140,16 +141,18 @@ G_MODULE_EXPORT void cb_t_isentry_foryearsearch(GtkButton *button, gpointer data
     char param6[BUFSIZE]; //インターン開催日
     char param7[BUFSIZE]; //日数
 
+    yearStr = gtk_entry_get_text(isentryhData->yearEntry_search);
+
     model = GTK_LIST_STORE(gtk_tree_view_get_model(isentryhData->yearSearchTree));
 
-    if(strlen(YearStr) < 1){
+    if(strlen(yearStr) < 1){
         gtk_list_store_clear(model);
         gtk_label_set_text(isentryhData->searchByYearStatus,"ERROR:年度指定がありません");
         return;
     }
 
     if(g_soc > 0){
-        sendLen = sprintf(sendBuf,"%s %s %s",ISLIST_T,YearStr,ENTER);
+        sendLen = sprintf(sendBuf,"%s %s %s",ISLIST_T,yearStr,ENTER);
         send(g_soc,sendBuf,sendLen,0);
         printf("C->S: %s\n",sendBuf);
         recvLen = recv_data(g_soc,recvBuf,BUFSIZE_MAX);
@@ -157,7 +160,7 @@ G_MODULE_EXPORT void cb_t_isentry_foryearsearch(GtkButton *button, gpointer data
         recordCount = record_division(recvBuf,records);
         printf("S->C: %s\n",recvBuf);
         //受信結果を分割する
-        memset(responce,0,BUFSIZE);
+        memset(response,0,BUFSIZE);
 
         memset(param1,0,BUFSIZE);
         memset(param2,0,BUFSIZE);
@@ -168,10 +171,11 @@ G_MODULE_EXPORT void cb_t_isentry_foryearsearch(GtkButton *button, gpointer data
         memset(param7,0,BUFSIZE);
 
     //レスポンス解析
-        n = sscanf(records[0],"%s %s",responce,param1);
+        n = sscanf(records[0],"%s %s",response,param1);
 
     //エラーチェク
-        if(strcmp(responce,OK_STAT) != 0){
+        if(strcmp(response,OK_STAT) != 0){
+            TeacherIsEntryErrorMessage(isentryhData->searchByYearStatus,atoi(param1));
             gtk_list_store_clear(model);
             return;
         }
@@ -205,6 +209,118 @@ G_MODULE_EXPORT void cb_t_isentry_foryearsearch(GtkButton *button, gpointer data
 //     //送受信バッファ
 // }
 
-// void TeacherIsEntryErrorMessage(GtkLabel *errorLabel, int errorCode){
-//     //エントリ登録画面
-// }
+G_MODULE_EXPORT void cb_t_stuentry_search(GtkButton *button,gpointer data){
+    MainHandleData *hData;
+
+    GtkTreeIter stu_entry_iter;
+    GtkTreeIter com_entry_iter;
+
+    GtkListStore *stu_entry_list_model;
+    GtkListStore *com_entry_list_model;
+
+    const gchar *yearStr;
+
+    TeacherISEntryWindowHandleData *isentryhData;
+
+    char sendBuf[BUFSIZE];
+    char recvBuf[BUFSIZE_MAX];
+
+    char *records[RECORD_MAX];
+    char response[BUFSIZE];
+    int recordCount,sendLen,recvLen,i,n;
+
+    char param1[BUFSIZE];
+    char param2[BUFSIZE];
+    char param3[BUFSIZE];
+    char param4[BUFSIZE];
+    char param5[BUFSIZE];
+    char param6[BUFSIZE];
+    char param7[BUFSIZE];
+    char param8[BUFSIZE];
+
+    printf("call:cb_t_stuentry_search\n");
+
+    hData = (MainHandleData *)data;
+    isentryhData = hData->isentryhData;
+
+    yearStr = gtk_entry_get_text(isentryhData->yearEntry_foundEntry);
+
+    stu_entry_list_model = GTK_LIST_STORE(gtk_tree_view_get_model(isentryhData->studentEntryTree));
+
+    if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(isentryhData->sortSelectRadioButton[0])) == TRUE){
+        sendLen = sprintf(sendBuf,"%s %s %s %s",STUBRO,yearStr,SORT_BY_STUDENT_FLAG,ENTER);
+    }else if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(isentryhData->sortSelectRadioButton[1])) == TRUE){
+        sendLen = sprintf(sendBuf,"%s %s %s %s",STUBRO,yearStr,SORT_BY_COMAPNY_FLAG,ENTER);
+    }
+
+    if(strlen(yearStr) < 1){
+        gtk_list_store_clear(stu_entry_list_model);
+        gtk_label_set_text(isentryhData->foundEntryInfo,"ERROR:年度が入力されていません");
+        return;
+    }
+
+    if(g_soc > 0){
+        send(g_soc,sendBuf,sendLen,0);
+        printf("C->S: %s",sendBuf);
+        recvLen = recv_data(g_soc,recvBuf,BUFSIZE_MAX);
+        recordCount = record_division(recvBuf,records);
+        printf("S->C: %s\n",recvBuf);
+
+        memset(response,0,BUFSIZE);
+        memset(param1,0,BUFSIZE);
+        memset(param2,0,BUFSIZE);
+        memset(param3,0,BUFSIZE);
+        memset(param4,0,BUFSIZE);
+        memset(param5,0,BUFSIZE);
+        memset(param6,0,BUFSIZE);
+        memset(param7,0,BUFSIZE);
+        memset(param8,0,BUFSIZE);
+
+        n = sscanf(records[0],"%s %s",response,param1);
+
+        if(strcmp(response,OK_STAT) != 0){
+            TeacherIsEntryErrorMessage(isentryhData->foundEntryInfo,atoi(param1)); 
+            gtk_list_store_clear(stu_entry_list_model);
+            return;
+        }
+
+        gtk_list_store_clear(stu_entry_list_model);
+
+        for(i=1;i<atoi(param1)+1;i++){
+            n = sscanf(records[i],"%s %s %s %s %s %s %s",param2,param3,param4,param5,param6,param7,param8);
+            gtk_list_store_append(stu_entry_list_model,&stu_entry_iter);
+            gtk_list_store_set(stu_entry_list_model,&stu_entry_iter,0,param2,1,param3,2,param4,3,param5,4,param6,5,param7,6,param8,-1);
+        }
+
+    }
+
+}
+
+void TeacherIsEntryErrorMessage(GtkLabel *statLabel, int statusCode){
+    switch(statusCode){
+        break;
+        default:
+            gtk_label_set_text(statLabel,"ERROR:FATAL");
+            break;
+        case 100:
+            gtk_label_set_text(statLabel,"ERROR:コマンドリクエストの引数エラー");
+            break;
+        case 200:
+            gtk_label_set_text(statLabel,"ERROR:リクエストコマンドがありません");
+            break;       
+        case 300:
+            gtk_label_set_text(statLabel,"ERROR:データベースエラーです");
+            break;
+        case 1500:
+            gtk_label_set_text(statLabel,"ERROR:すでにエントリ登録されています");
+            break;
+        case 1501:
+            gtk_label_set_text(statLabel,"ERROR:学生IDがありません");
+            break;
+        case 1600:
+            gtk_label_set_text(statLabel,"ERROR:インターンシップIDがありません");
+            break;
+        case 1601:
+            gtk_label_set_text(statLabel,"ERROR:インターンシップIDに対するエントリがありません");
+    }
+}

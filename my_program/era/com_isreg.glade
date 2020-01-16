@@ -88,12 +88,10 @@
                   <object class="GtkBox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="homogeneous">True</property>
                     <child>
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="homogeneous">True</property>
                         <child>
                           <object class="GtkLabel" id="year_label">
                             <property name="visible">True</property>
@@ -107,9 +105,11 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkComboBox" id="year_combo">
+                          <object class="GtkEntry" id="year_entry">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can_focus">True</property>
+                            <property name="max_width_chars">4</property>
+                            <property name="input_purpose">digits</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -130,9 +130,11 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkComboBox" id="month_combo">
+                          <object class="GtkEntry" id="month_entry">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can_focus">True</property>
+                            <property name="max_width_chars">1</property>
+                            <property name="input_purpose">digits</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -153,9 +155,11 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkComboBox" id="day_combo">
+                          <object class="GtkEntry" id="date_entry">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can_focus">True</property>
+                            <property name="max_width_chars">2</property>
+                            <property name="input_purpose">digits</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -174,9 +178,8 @@
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="homogeneous">True</property>
                         <child>
-                          <object class="GtkLabel" id="daycount">
+                          <object class="GtkLabel" id="daycount_label">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="label" translatable="yes">日数</property>
@@ -188,9 +191,11 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkComboBox" id="daycount_combo">
+                          <object class="GtkEntry" id="daycount_entry">
                             <property name="visible">True</property>
-                            <property name="can_focus">False</property>
+                            <property name="can_focus">True</property>
+                            <property name="max_width_chars">3</property>
+                            <property name="input_purpose">digits</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -258,6 +263,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="receives_default">True</property>
+                        <signal name="clicked" handler="cb_isreg_exec" swapped="no"/>
                       </object>
                       <packing>
                         <property name="expand">True</property>
@@ -284,6 +290,18 @@
                     <property name="expand">False</property>
                     <property name="fill">True</property>
                     <property name="position">3</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel" id="com_isreg_stat_label">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label" translatable="yes">入力してください</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">4</property>
                   </packing>
                 </child>
               </object>

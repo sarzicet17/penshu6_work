@@ -10,12 +10,13 @@ typedef struct _teacherISEntryWindowhandleData{
     GtkEntry *isIdEntry;
     GtkLabel *regStatLabel;
     //年度別検索画面
-    GtkComboBox *yearCombo;
+    // GtkComboBox *yearCombo;
+    GtkEntry *yearEntry_search;
     GtkTreeView *yearSearchTree;
     GtkLabel *searchByYearStatus;
     //学生エントリ情報取得画面
-    GtkRadioButton *sortbyStu;
-    GtkRadioButton *sortbyCom;
+    GtkRadioButton *sortSelectRadioButton[2];
+    GtkEntry *yearEntry_foundEntry;
     GtkTreeView *studentEntryTree;
     GtkTreeView *companyEntryTree;
     GtkLabel *foundEntryInfo;
@@ -25,6 +26,9 @@ typedef struct _teacherISEntryWindowhandleData{
 #define ENTRY "ENTRY"
 #define ISLIST_T "ISLIST_T"
 #define STUBRO "STUBRO"
+#define SORT_BY_STUDENT_FLAG "0"
+#define SORT_BY_COMAPNY_FLAG "1"
+
 
 extern void TeacherIsEntryErrorMessage(GtkLabel *errorLabel, int errorCode);
 

@@ -2,7 +2,7 @@
 <!-- Generated with glade 3.22.1 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
-  <object class="GtkListStore" id="stu_entry_detail">
+  <object class="GtkListStore" id="stu_entry_forcom">
     <columns>
       <!-- column-name com_name -->
       <column type="gchararray"/>
@@ -20,11 +20,21 @@
       <column type="gchararray"/>
     </columns>
   </object>
-  <object class="GtkListStore" id="stu_entry_res">
+  <object class="GtkListStore" id="stu_entry_forstu">
     <columns>
-      <!-- column-name result_row -->
-      <column type="gchararray"/>
       <!-- column-name stu_id -->
+      <column type="gchararray"/>
+      <!-- column-name stu_number -->
+      <column type="gchararray"/>
+      <!-- column-name stu_name -->
+      <column type="gchararray"/>
+      <!-- column-name com_name -->
+      <column type="gchararray"/>
+      <!-- column-name intern_id -->
+      <column type="gchararray"/>
+      <!-- column-name intern_theme -->
+      <column type="gchararray"/>
+      <!-- column-name year -->
       <column type="gchararray"/>
     </columns>
   </object>
@@ -252,18 +262,10 @@
                     <property name="can_focus">False</property>
                     <property name="homogeneous">True</property>
                     <child>
-                      <object class="GtkComboBox" id="year_combo">
+                      <object class="GtkLabel">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="halign">end</property>
-                        <property name="valign">center</property>
-                        <property name="model">year_list</property>
-                        <child>
-                          <object class="GtkCellRendererText" id="yearlist"/>
-                          <attributes>
-                            <attribute name="text">0</attribute>
-                          </attributes>
-                        </child>
+                        <property name="label" translatable="yes">年度を入力</property>
                       </object>
                       <packing>
                         <property name="expand">False</property>
@@ -278,12 +280,11 @@
                         <property name="orientation">vertical</property>
                         <property name="layout_style">center</property>
                         <child>
-                          <object class="GtkButton" id="search_byyear_button">
-                            <property name="label" translatable="yes">検索開始</property>
+                          <object class="GtkEntry" id="year_entry">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
-                            <property name="receives_default">True</property>
-                            <signal name="clicked" handler="cb_t_isentry_foryearsearch" swapped="no"/>
+                            <property name="max_width_chars">4</property>
+                            <property name="input_purpose">digits</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -296,6 +297,20 @@
                         <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="position">1</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkButton" id="search_byyear_button">
+                        <property name="label" translatable="yes">検索開始</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">True</property>
+                        <signal name="clicked" handler="cb_t_isentry_foryearsearch" swapped="no"/>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">2</property>
                       </packing>
                     </child>
                   </object>
@@ -495,6 +510,7 @@
                             <property name="receives_default">False</property>
                             <property name="active">True</property>
                             <property name="draw_indicator">True</property>
+                            <property name="group">sortby_stu</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
@@ -503,16 +519,42 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkButton" id="entrysearch_button">
-                            <property name="label" translatable="yes">検索開始</property>
+                          <object class="GtkLabel">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">年度を入力</property>
                           </object>
                           <packing>
                             <property name="expand">False</property>
                             <property name="fill">True</property>
                             <property name="position">2</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkEntry" id="yearEntry">
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="max_width_chars">4</property>
+                            <property name="input_purpose">digits</property>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">3</property>
+                          </packing>
+                        </child>
+                        <child>
+                          <object class="GtkButton" id="entrysearch_button">
+                            <property name="label" translatable="yes">検索開始</property>
+                            <property name="visible">True</property>
+                            <property name="can_focus">True</property>
+                            <property name="receives_default">True</property>
+                            <signal name="clicked" handler="cb_t_stuentry_search" swapped="no"/>
+                          </object>
+                          <packing>
+                            <property name="expand">False</property>
+                            <property name="fill">True</property>
+                            <property name="position">4</property>
                           </packing>
                         </child>
                       </object>
@@ -538,17 +580,83 @@
                       <object class="GtkTreeView" id="stu_entrytree">
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
-                        <property name="model">stu_entry_res</property>
+                        <property name="model">stu_entry_forstu</property>
                         <child internal-child="selection">
                           <object class="GtkTreeSelection"/>
                         </child>
                         <child>
-                          <object class="GtkTreeViewColumn" id="stu_id">
+                          <object class="GtkTreeViewColumn" id="stu_id_entrytree_sstu">
                             <property name="title" translatable="yes">学生ID</property>
                             <child>
-                              <object class="GtkCellRendererText" id="res_stu_id"/>
+                              <object class="GtkCellRendererText" id="stu_id1"/>
+                              <attributes>
+                                <attribute name="text">0</attribute>
+                              </attributes>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkTreeViewColumn" id="stu_number_entrytree_sstu">
+                            <property name="title" translatable="yes">学籍番号</property>
+                            <child>
+                              <object class="GtkCellRendererText" id="stu_number"/>
                               <attributes>
                                 <attribute name="text">1</attribute>
+                              </attributes>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkTreeViewColumn" id="stu_name_entrytree_sstu">
+                            <property name="title" translatable="yes">学生名</property>
+                            <child>
+                              <object class="GtkCellRendererText" id="stu_name_sstu"/>
+                              <attributes>
+                                <attribute name="text">2</attribute>
+                              </attributes>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkTreeViewColumn" id="com_name_entrytree_sstu">
+                            <property name="title" translatable="yes">企業名</property>
+                            <child>
+                              <object class="GtkCellRendererText" id="com_name_sstu"/>
+                              <attributes>
+                                <attribute name="text">3</attribute>
+                              </attributes>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkTreeViewColumn" id="intern_id_entrytree_sstu">
+                            <property name="title" translatable="yes">インターンシップID</property>
+                            <child>
+                              <object class="GtkCellRendererText" id="intern_id_sstu"/>
+                              <attributes>
+                                <attribute name="text">4</attribute>
+                              </attributes>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkTreeViewColumn" id="intern_entry_theme_sstu">
+                            <property name="title" translatable="yes">インターンシップ名</property>
+                            <child>
+                              <object class="GtkCellRendererText" id="intern_theme_sstu"/>
+                              <attributes>
+                                <attribute name="text">5</attribute>
+                              </attributes>
+                            </child>
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkTreeViewColumn" id="year_entry_sstu">
+                            <property name="title" translatable="yes">開催年度</property>
+                            <child>
+                              <object class="GtkCellRendererText" id="year_sstu"/>
+                              <attributes>
+                                <attribute name="text">6</attribute>
                               </attributes>
                             </child>
                           </object>
@@ -563,7 +671,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkScrolledWindow">
+                  <object class="GtkScrolledWindow" id="sw_com">
                     <property name="visible">True</property>
                     <property name="can_focus">True</property>
                     <property name="shadow_type">in</property>
@@ -573,7 +681,7 @@
                         <property name="can_focus">True</property>
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
-                        <property name="model">stu_entry_detail</property>
+                        <property name="model">stu_entry_forcom</property>
                         <child internal-child="selection">
                           <object class="GtkTreeSelection"/>
                         </child>
