@@ -21,6 +21,14 @@ typedef struct _teacherISEntryWindowhandleData{
     GtkTreeView *companyEntryTree;
     GtkLabel *foundEntryInfo;
 
+    GtkTreeViewColumn *entrycolumn1;
+    GtkTreeViewColumn *entrycolumn2;
+    GtkTreeViewColumn *entrycolumn3;
+    GtkTreeViewColumn *entrycolumn4;
+    GtkTreeViewColumn *entrycolumn5;
+    GtkTreeViewColumn *entrycolumn6;
+    GtkTreeViewColumn *entrycolumn7;
+
 }TeacherISEntryWindowHandleData;
 
 #define ENTRY "ENTRY"

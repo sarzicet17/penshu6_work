@@ -17,6 +17,8 @@ G_MODULE_EXPORT void cb_t_isentry_close(GtkButton *button,gpointer data){
     gtk_widget_hide(isentryhData->entryWindow);
     free(hData->isentryhData);
 
+    teacherisEntryWindowShowFlag = 0;
+
 }
 
 
@@ -245,19 +247,35 @@ G_MODULE_EXPORT void cb_t_stuentry_search(GtkButton *button,gpointer data){
 
     yearStr = gtk_entry_get_text(isentryhData->yearEntry_foundEntry);
 
-    stu_entry_list_model = GTK_LIST_STORE(gtk_tree_view_get_model(isentryhData->studentEntryTree));
-
-    if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(isentryhData->sortSelectRadioButton[0])) == TRUE){
-        sendLen = sprintf(sendBuf,"%s %s %s %s",STUBRO,yearStr,SORT_BY_STUDENT_FLAG,ENTER);
-    }else if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(isentryhData->sortSelectRadioButton[1])) == TRUE){
-        sendLen = sprintf(sendBuf,"%s %s %s %s",STUBRO,yearStr,SORT_BY_COMAPNY_FLAG,ENTER);
-    }
-
     if(strlen(yearStr) < 1){
         gtk_list_store_clear(stu_entry_list_model);
         gtk_label_set_text(isentryhData->foundEntryInfo,"ERROR:年度が入力されていません");
         return;
     }
+
+    stu_entry_list_model = GTK_LIST_STORE(gtk_tree_view_get_model(isentryhData->studentEntryTree));
+
+    if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(isentryhData->sortSelectRadioButton[0])) == TRUE){
+        gtk_tree_view_column_set_title(isentryhData->entrycolumn1,"学生ID");
+        gtk_tree_view_column_set_title(isentryhData->entrycolumn2,"学籍番号");
+        gtk_tree_view_column_set_title(isentryhData->entrycolumn3,"学生氏名");
+        gtk_tree_view_column_set_title(isentryhData->entrycolumn4,"企業名");
+        gtk_tree_view_column_set_title(isentryhData->entrycolumn5,"インターンシップID");
+        gtk_tree_view_column_set_title(isentryhData->entrycolumn6,"インターンシップ名");
+        gtk_tree_view_column_set_title(isentryhData->entrycolumn7,"開催年度");        
+        sendLen = sprintf(sendBuf,"%s %s %s %s",STUBRO,yearStr,SORT_BY_STUDENT_FLAG,ENTER);
+    }else if(gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(isentryhData->sortSelectRadioButton[1])) == TRUE){
+        gtk_tree_view_column_set_title(isentryhData->entrycolumn1,"企業名");
+        gtk_tree_view_column_set_title(isentryhData->entrycolumn2,"インターンシップID");
+        gtk_tree_view_column_set_title(isentryhData->entrycolumn3,"インターンシップ名");
+        gtk_tree_view_column_set_title(isentryhData->entrycolumn4,"学生ID");
+        gtk_tree_view_column_set_title(isentryhData->entrycolumn5,"学籍番号");
+        gtk_tree_view_column_set_title(isentryhData->entrycolumn6,"学生氏名");
+        gtk_tree_view_column_set_title(isentryhData->entrycolumn7,"開催年度"); 
+        sendLen = sprintf(sendBuf,"%s %s %s %s",STUBRO,yearStr,SORT_BY_COMAPNY_FLAG,ENTER);
+    }
+
+
 
     if(g_soc > 0){
         send(g_soc,sendBuf,sendLen,0);

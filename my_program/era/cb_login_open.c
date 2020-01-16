@@ -33,6 +33,8 @@ G_MODULE_EXPORT void cb_login_win_open(GtkMenuItem *menuItem, gpointer data){
   loginHData->passwordEntry   = GTK_ENTRY( gtk_builder_get_object(builder, "passwordEntry") );
   loginHData->errorLabel      = GTK_LABEL( gtk_builder_get_object(builder, "errorLabel") );
 
+  
+
   /* メイン画面の主要Widget保持用のメンバーとしてログイン画面主要Widget保持用構造体をセット */
   hData->loginHData = loginHData;
 
