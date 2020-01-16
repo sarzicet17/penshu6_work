@@ -107,6 +107,8 @@ G_MODULE_EXPORT void cb_submit_entry(GtkButton *button, gpointer data){
         if(strcmp(response,OK_STAT) != 0){
             TeacherIsEntryErrorMessage(isentryhData->regStatLabel,atoi(param1));
             return;
+        }else{
+            gtk_label_set_text(isentryhData->regStatLabel,"登録成功");
         }
     }
 }
@@ -180,6 +182,8 @@ G_MODULE_EXPORT void cb_t_isentry_foryearsearch(GtkButton *button, gpointer data
             TeacherIsEntryErrorMessage(isentryhData->searchByYearStatus,atoi(param1));
             gtk_list_store_clear(model);
             return;
+        }else{
+            gtk_label_set_text(isentryhData->searchByYearStatus,"検索完了")
         }
 
         gtk_label_set_text(isentryhData->searchByYearStatus,param1);
@@ -248,7 +252,7 @@ G_MODULE_EXPORT void cb_t_stuentry_search(GtkButton *button,gpointer data){
     yearStr = gtk_entry_get_text(isentryhData->yearEntry_foundEntry);
 
     if(strlen(yearStr) < 1){
-        gtk_list_store_clear(stu_entry_list_model);
+//        gtk_list_store_clear(stu_entry_list_model);
         gtk_label_set_text(isentryhData->foundEntryInfo,"ERROR:年度が入力されていません");
         return;
     }
@@ -300,6 +304,8 @@ G_MODULE_EXPORT void cb_t_stuentry_search(GtkButton *button,gpointer data){
             TeacherIsEntryErrorMessage(isentryhData->foundEntryInfo,atoi(param1)); 
             gtk_list_store_clear(stu_entry_list_model);
             return;
+        }else{
+            gtk_label_set_text(isentryhData->foundEntryInfo,"取得完了");
         }
 
         gtk_list_store_clear(stu_entry_list_model);

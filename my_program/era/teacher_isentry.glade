@@ -451,7 +451,7 @@
               </object>
               <packing>
                 <property name="name">page1</property>
-                <property name="title" translatable="yes">年度別検索</property>
+                <property name="title" translatable="yes">年度別インターンシップ検索</property>
                 <property name="position">1</property>
               </packing>
             </child>

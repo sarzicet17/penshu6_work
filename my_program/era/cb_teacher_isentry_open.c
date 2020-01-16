@@ -31,6 +31,7 @@ G_MODULE_EXPORT void cb_show_teacher_isentry(GtkButton *button, gpointer data){
         isentryhData->studentEntryTree = GTK_TREE_VIEW(gtk_builder_get_object(builder,"stu_entrytree"));
         isentryhData->companyEntryTree = GTK_TREE_VIEW(gtk_builder_get_object(builder,"com_entrytree"));
         isentryhData->yearEntry_foundEntry = GTK_ENTRY(gtk_builder_get_object(builder,"yearEntry"));
+        isentryhData->foundEntryInfo = GTK_LABEL(gtk_builder_get_object(builder,"found_entry_info"));
 
         isentryhData->entrycolumn1 = GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder,"stu_entry_column1"));
         isentryhData->entrycolumn2 = GTK_TREE_VIEW_COLUMN(gtk_builder_get_object(builder,"stu_entry_column2"));
