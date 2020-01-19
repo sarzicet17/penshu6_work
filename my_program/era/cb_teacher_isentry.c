@@ -1,6 +1,5 @@
 #include "intern_client.h"
 #include "teacher_isentry_func.h"
-#include <time.h>
 
 extern int teacherisEntryWindowShowFlag;
 
@@ -20,39 +19,6 @@ G_MODULE_EXPORT void cb_t_isentry_close(GtkButton *button,gpointer data){
     teacherisEntryWindowShowFlag = 0;
 
 }
-
-
-//ラジオボタン
-
-//年度別検索を行う際、コンボボックスに年度をセットする
-
-// G_MODULE_EXPORT void cb_set_year_combo(GtkComboBox *combobox, gpointer data){
-//     MainHandleData *hData;
-//     TeacherISEntryWindowHandleData *isentryhData;
-
-//     hData = (TeacherISEntryWindowHandleData *)data;
-//     isentryhData = hData ->isentryhData;
-//     GtkTreeModel  *model;
-//     GtkTreeIter   　iter;
-
-//     const gchar *yearValue = NULL;
-
-//     //現在年の取得
-//     time_t timer;
-//     struct tm *local;
-//     int year,i;
-
-//     timer = time(NULL);
-//     local = localtime(&timer);
-//     year = local->tm_year + 1900;
-
-//     yearValue = year;
-
-//     gtk_list_store_append(model, &iter);
-//     gtk_list_store_set(model, &iter, 0, yearValue, -1);
-
-// }
-
 
 
 G_MODULE_EXPORT void cb_submit_entry(GtkButton *button, gpointer data){
@@ -105,7 +71,7 @@ G_MODULE_EXPORT void cb_submit_entry(GtkButton *button, gpointer data){
         n = sscanf(records[0],"%s %s %s",response,param1,param2);
 
         if(strcmp(response,OK_STAT) != 0){
-            TeacherIsEntryErrorMessage(isentryhData->regStatLabel,atoi(param1));
+            showErrorMsg(isentryhData->regStatLabel,atoi(param1));
             return;
         }else{
             gtk_label_set_text(isentryhData->regStatLabel,"登録成功");
@@ -179,7 +145,7 @@ G_MODULE_EXPORT void cb_t_isentry_foryearsearch(GtkButton *button, gpointer data
 
     //エラーチェク
         if(strcmp(response,OK_STAT) != 0){
-            TeacherIsEntryErrorMessage(isentryhData->searchByYearStatus,atoi(param1));
+            showErrorMsg(isentryhData->searchByYearStatus,atoi(param1));
             gtk_list_store_clear(model);
             return;
         }else{
@@ -198,22 +164,6 @@ G_MODULE_EXPORT void cb_t_isentry_foryearsearch(GtkButton *button, gpointer data
     }
 }
 
-//学生エントリ情報取得
-
-// G_MODULE_EXPORT void cb_t_isentry_find_stuentry(GtkButton *button, gpointer data){
-//     MainHandleData *hData;
-//     TeacherISEntryWindowHandleData *isentryhData;
-
-//     hData = (TeacherISEntryWindowHandleData *)data;
-
-//     isentryhData = hData ->isentryhData;
-
-//     //ツリービューモデル
-//     GtkListStore *forStuFindModel;
-//     GtkTreeIter forStuFindIter:
-
-//     //送受信バッファ
-// }
 
 G_MODULE_EXPORT void cb_t_stuentry_search(GtkButton *button,gpointer data){
     MainHandleData *hData;
@@ -301,7 +251,7 @@ G_MODULE_EXPORT void cb_t_stuentry_search(GtkButton *button,gpointer data){
         n = sscanf(records[0],"%s %s",response,param1);
 
         if(strcmp(response,OK_STAT) != 0){
-            TeacherIsEntryErrorMessage(isentryhData->foundEntryInfo,atoi(param1)); 
+            showErrorMsg(isentryhData->foundEntryInfo,atoi(param1)); 
             gtk_list_store_clear(stu_entry_list_model);
             return;
         }else{
@@ -320,31 +270,3 @@ G_MODULE_EXPORT void cb_t_stuentry_search(GtkButton *button,gpointer data){
 
 }
 
-void TeacherIsEntryErrorMessage(GtkLabel *statLabel, int statusCode){
-    switch(statusCode){
-        break;
-        default:
-            gtk_label_set_text(statLabel,"ERROR:FATAL");
-            break;
-        case 100:
-            gtk_label_set_text(statLabel,"ERROR:コマンドリクエストの引数エラー");
-            break;
-        case 200:
-            gtk_label_set_text(statLabel,"ERROR:リクエストコマンドがありません");
-            break;       
-        case 300:
-            gtk_label_set_text(statLabel,"ERROR:データベースエラーです");
-            break;
-        case 1500:
-            gtk_label_set_text(statLabel,"ERROR:すでにエントリ登録されています");
-            break;
-        case 1501:
-            gtk_label_set_text(statLabel,"ERROR:学生IDがありません");
-            break;
-        case 1600:
-            gtk_label_set_text(statLabel,"ERROR:インターンシップIDがありません");
-            break;
-        case 1601:
-            gtk_label_set_text(statLabel,"ERROR:インターンシップIDに対するエントリがありません");
-    }
-}

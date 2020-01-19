@@ -1,7 +1,7 @@
 #ifndef _COM_ISREG_HDR_
 #define _COM_ISREG_HDR_
 
-extern void comRegIsErrorMessageShow(GtkLabel *,int);
+//extern void comRegIsErrorMessageShow(GtkLabel *,int);
 extern int dateEntryValidation(const gchar *__year,const gchar *__month,const gchar *__day);
 
 

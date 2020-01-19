@@ -38,6 +38,6 @@ typedef struct _teacherISEntryWindowhandleData{
 #define SORT_BY_COMAPNY_FLAG "1"
 
 
-extern void TeacherIsEntryErrorMessage(GtkLabel *errorLabel, int errorCode);
+//extern void TeacherIsEntryErrorMessage(GtkLabel *errorLabel, int errorCode);
 
 #endif

@@ -25,6 +25,7 @@ G_MODULE_EXPORT void cb_show_teacher_isentry(GtkButton *button, gpointer data){
         //年度別検索画面
         isentryhData->yearSearchTree = GTK_TREE_VIEW(gtk_builder_get_object(builder,"yearsearch_tree"));
         isentryhData->yearEntry_search = GTK_ENTRY(gtk_builder_get_object(builder,"year_entry"));
+        isentryhData->searchByYearStatus = GTK_LABEL(gtk_builder_get_object(builder,"searchby_year_status"));
         //エントリ情報検索画面
         isentryhData->sortSelectRadioButton[0] = GTK_RADIO_BUTTON(gtk_builder_get_object(builder,"sortby_stu"));
         isentryhData->sortSelectRadioButton[1] = GTK_RADIO_BUTTON(gtk_builder_get_object(builder,"sortby_com"));

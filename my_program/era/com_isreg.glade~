@@ -48,11 +48,13 @@
               <object class="GtkBox">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
+                <property name="halign">center</property>
                 <property name="orientation">vertical</property>
                 <child>
                   <object class="GtkBox" id="isreg_form">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
+                    <property name="halign">center</property>
                     <child>
                       <object class="GtkLabel">
                         <property name="visible">True</property>
@@ -72,7 +74,7 @@
                         <property name="can_focus">True</property>
                       </object>
                       <packing>
-                        <property name="expand">True</property>
+                        <property name="expand">False</property>
                         <property name="fill">True</property>
                         <property name="padding">10</property>
                         <property name="position">1</property>
@@ -93,6 +95,7 @@
                       <object class="GtkBox">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
+                        <property name="orientation">vertical</property>
                         <child>
                           <object class="GtkLabel" id="year_label">
                             <property name="visible">True</property>
@@ -109,6 +112,7 @@
                           <object class="GtkEntry" id="year_entry">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="halign">start</property>
                             <property name="max_width_chars">4</property>
                             <property name="input_purpose">digits</property>
                           </object>
@@ -195,6 +199,7 @@
                           <object class="GtkEntry" id="daycount_entry">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
+                            <property name="valign">center</property>
                             <property name="max_width_chars">3</property>
                             <property name="input_purpose">digits</property>
                           </object>
@@ -467,7 +472,7 @@
                     </child>
                   </object>
                   <packing>
-                    <property name="expand">False</property>
+                    <property name="expand">True</property>
                     <property name="fill">True</property>
                     <property name="position">1</property>
                   </packing>
